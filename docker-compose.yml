@@ -1,0 +1,47 @@
+version: "3.8"
+
+services: 
+  db:
+    image: postgres:12
+    container_name: postgres12
+    restart: always
+    environment: 
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_DB=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports: 
+      - 5432:5432
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    environment: 
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - 80:80
+    depends_on:
+      - postgres
+  odoo:
+    build: . 
+    container_name: odoo12
+    depends_on:
+      - postgres
+    ports:
+      - 8069:8069
+    tty: true
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo
+    volumes:
+      - odoo-web-data:/opt/odoo/data
+      - ./config:/opt/odoo/config
+      - ./addons:/opt/odoo/extra-addons
+    restart: always
+volumes:
+  odoo-web-data:
+  odoo-db-data:
