@@ -1,12 +1,11 @@
-version: "3.8"
+version: "3"
 
 services: 
   db:
-    image: postgres:12
-    container_name: postgres12
+    image: postgres:10
+    container_name: postgres10
     restart: always
     environment: 
-      - DATABASE_HOST=127.0.0.1
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_DB=postgres
@@ -21,15 +20,18 @@ services:
     environment: 
       PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
       PGADMIN_DEFAULT_PASSWORD: "admin"
+      PGADMIN_LISTEN_PORT: 5050
     ports:
-      - 80:80
+      - 5050:5050
     depends_on:
-      - postgres
+      - db
+    links:
+      - db:pgsql-server
   odoo:
     build: . 
     container_name: odoo12
     depends_on:
-      - postgres
+      - db
     ports:
       - 8069:8069
     tty: true
@@ -38,9 +40,9 @@ services:
       - USER=odoo
       - PASSWORD=odoo
     volumes:
-      - odoo-web-data:/opt/odoo/data
-      - ./config:/opt/odoo/config
-      - ./addons:/opt/odoo/extra-addons
+      - odoo-web-data:/opt/odoo12/data
+      - ./config:/opt/odoo12/config
+      - ./addons:/opt/odoo12/extra-addons
     restart: always
 volumes:
   odoo-web-data:

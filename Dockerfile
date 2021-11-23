@@ -22,6 +22,7 @@ VOLUME [ "/opt/odoo12/data", "/opt/odoo12/extra-addons", "/var/lib/odoo" ]
 
 RUN git clone https://gitlab.com/Yusuke1998/no-me-gusta-odoo-12.git --depth 1 /opt/odoo12/
 RUN pip3 install -r /opt/odoo12/requirements.txt
+RUN pip3 install firebase-admin
 RUN mkdir -p /opt/odoo12/extra-addons \
     && mkdir -p /opt/odoo12/data \
     && mkdir -p /var/lib/odoo \
