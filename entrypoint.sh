@@ -9,11 +9,6 @@ set -e
 : ${USER:=${DB_ENV_POSTGRES_USER:=${POSTGRES_USER:='odoo'}}}
 : ${PASSWORD:=${DB_ENV_POSTGRES_PASSWORD:=${POSTGRES_PASSWORD:='odoo'}}}
 
-# pip3 install pip --upgrade
-# pip3 install -r /etc/odoo/requirements.txt
-
-# sed -i 's|raise werkzeug.exceptions.BadRequest(msg)|self.jsonrequest = {}|g' /usr/lib/python3/dist-packages/odoo/http.py
-
 DB_ARGS=()
 function check_config() {
     param="$1"
