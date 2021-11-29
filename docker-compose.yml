@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: odoo12:0.0.1
     container_name: odoo12
     ports:
       - 8069:8069
