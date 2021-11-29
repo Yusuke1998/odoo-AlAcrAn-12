@@ -1,7 +1,7 @@
-version: "3"
+version: "3.7"
 
 services: 
-  db:
+  postgres10:
     image: postgres:10
     container_name: postgres10
     restart: always
@@ -11,39 +11,47 @@ services:
       - POSTGRES_DB=postgres
       - PGDATA=/var/lib/postgresql/data/pgdata
     ports: 
-      - 5432:5432
+      - 5433:5432
     volumes:
       - odoo-db-data:/var/lib/postgresql/data/pgdata
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin4
-    environment: 
-      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
-      PGADMIN_DEFAULT_PASSWORD: "admin"
-      PGADMIN_LISTEN_PORT: 5050
-    ports:
-      - 5050:5050
-    depends_on:
-      - db
-    links:
-      - db:pgsql-server
+    networks:
+      - web0doo
   odoo:
     build: . 
+    image: odoo12:pg10
     container_name: odoo12
     depends_on:
-      - db
-    ports:
-      - 8069:8069
+      - postgres10
     tty: true
     environment:
-      - HOST=db
+      - HOST=postgres10
+      - PORT=5432
       - USER=odoo
       - PASSWORD=odoo
     volumes:
       - odoo-web-data:/opt/odoo12/data
       - ./config:/opt/odoo12/config
       - ./addons:/opt/odoo12/extra-addons
+    ports:
+      - 8069:8069
     restart: always
+    networks:
+      - web0doo
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4Odoopg
+    environment: 
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - 5051:80
+    depends_on:
+      - postgres10
+    networks:
+      - web0doo
 volumes:
   odoo-web-data:
   odoo-db-data:
+
+networks:
+  web0doo:
