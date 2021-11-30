@@ -20,7 +20,7 @@ RUN pip3 install firebase-admin -r /opt/odoo12/requirements.txt
 RUN mkdir -p /opt/odoo12/extra-addons /opt/odoo12/data /opt/odoo12/config /var/lib/odoo
 RUN chown -R odoo /opt/odoo12
 
-COPY ./entrypoint.sh /
+COPY ./entrypoint.sh /opt/entrypoint.sh
 COPY wait-for-psql.py /usr/local/bin/wait-for-psql.py
 
 EXPOSE 8069 8071 8072
@@ -33,6 +33,6 @@ RUN chown -R odoo /usr/bin/odoo && chmod +x /usr/bin/odoo
 
 USER odoo
 
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/opt/entrypoint.sh"]
 
 CMD ["odoo"]

@@ -14,8 +14,8 @@ services:
     environment: # configuracion para base de datos
       - HOST=postgres12
       - PORT=5432
-      - USER=odoo
-      - PASSWORD=odoo
+      - USER=general
+      - PASSWORD=123456
     volumes:
       - ./config:/opt/odoo12/config
       - ./addons:/opt/odoo12/extra-addons
