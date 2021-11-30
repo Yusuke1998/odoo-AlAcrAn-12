@@ -5,27 +5,27 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: odoo12:0.0.1
+    image: jodoo:12.0
     container_name: odoo12
+    hostname: localhost
     ports:
       - 8069:8069
     tty: true
-    environment:
+    environment: # configuracion para base de datos
       - HOST=postgres12
       - PORT=5432
-      - USER=general
-      - PASSWORD=123456
+      - USER=odoo
+      - PASSWORD=odoo
     volumes:
-      - odoo-web-data:/opt/odoo12/data
       - ./config:/opt/odoo12/config
       - ./addons:/opt/odoo12/extra-addons
+      - odoo-data:/var/lib/odoo
     restart: always
     networks:
       - common
-volumes:
-  odoo-web-data:
-
 networks:
   common:
     driver: bridge
     external: true
+volumes:
+  odoo-data:

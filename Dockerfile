@@ -33,6 +33,6 @@ RUN chown -R odoo /usr/bin/odoo && chmod +x /usr/bin/odoo
 
 USER odoo
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]
 
 CMD ["odoo"]
