@@ -4,7 +4,6 @@ services:
   postgres10:
     image: postgres:10
     container_name: postgres10
-    restart: always
     environment: 
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=odoo
@@ -14,11 +13,13 @@ services:
       - 5433:5432
     volumes:
       - odoo-db-data:/var/lib/postgresql/data/pgdata
+      - ./sqls:/var/local/sqls
+    restart: always
     networks:
-      - web0doo
+      - odoo_web
   odoo:
     build: . 
-    image: odoo12:pg10
+    image: yusuke1998/odoo:12
     container_name: odoo12
     depends_on:
       - postgres10
@@ -36,10 +37,10 @@ services:
       - 8069:8069
     restart: always
     networks:
-      - web0doo
+      - odoo_web
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin4Odoopg
+    container_name: pgadmin4
     environment: 
       PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
       PGADMIN_DEFAULT_PASSWORD: "admin"
@@ -47,11 +48,12 @@ services:
       - 5051:80
     depends_on:
       - postgres10
+    restart: always
     networks:
-      - web0doo
+      - odoo_web
 volumes:
   odoo-web-data:
   odoo-db-data:
 
 networks:
-  web0doo:
+  odoo_web:
