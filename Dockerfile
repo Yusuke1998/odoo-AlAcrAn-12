@@ -13,7 +13,7 @@ RUN apt-get update && apt install git \
 RUN pip3 install --upgrade pip && pip3 install unicodecsv unicode pysftp libsass
 RUN adduser --system --quiet --shell=/bin/bash --no-create-home --gecos 'ODOO' --group odoo
 RUN git clone https://gitlab.com/Yusuke1998/no-me-gusta-odoo-12.git --depth 1 /opt/odoo12/
-RUN pip3 install firebase-admin -r /opt/odoo12/requirements.txt 
+RUN pip3 install firebase-admin wkhtmltopdf -r /opt/odoo12/requirements.txt 
 RUN mkdir -p /opt/odoo12/extra-addons /opt/odoo12/data /opt/odoo12/config /var/lib/odoo
 
 COPY ./entrypoint.sh /
