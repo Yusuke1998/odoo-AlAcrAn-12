@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: jodoo:12.0
+    image: yusuke1998/odoo:12
     container_name: odoo12
     hostname: localhost
     ports:
@@ -14,8 +14,8 @@ services:
     environment: # configuracion para base de datos
       - HOST=postgres12
       - PORT=5432
-      - USER=general
-      - PASSWORD=123456
+      - USER=odoo
+      - PASSWORD=odoo
     volumes:
       - ./config:/opt/odoo12/config
       - ./addons:/opt/odoo12/extra-addons
